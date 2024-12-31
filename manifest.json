@@ -1,0 +1,15 @@
+{
+  "manifest_version":2,
+  "version":"1.0",
+  "name":"DownloadMangaLib",
+  "content_scripts":[
+    {
+     "matches":["https://mangalib.me/*"],
+     "js":["goToChapter.js", "downloadChapter.js"]
+    },
+	{
+	 "matches":["https://img2.imglib.info/*"],
+	 "js":["downloadPage.js"]
+	}
+  ]
+}
