@@ -1,31 +1,4 @@
-console.log('test2');
-
 waitForElement('main', processChapter);
-    
-async function processChapter(element){
-	console.log('Chapter exists:', element);
-	var div_list = document.querySelectorAll('[data-page]');
-	var div_array = [...div_list]; // converts NodeList to Array
-	image_urls = []
-	for (const div of div_array) {
-		const contents = await processPage(div);
-	  } 
-	}
-
-async function processPage(div){
-	image = div.querySelector('img');
-	if (image !== null) {
-		console.log(image.src);
-		window.open(image.src);
-		await new Promise(r => setTimeout(r, 2000));
-	}
-	else {
-		console.log('No image for page', div.getAttribute('data-page'));
-		return;
-	}
-	window.focus();
-	div.click();
-}
 
 function waitForElement(selector, callback) {
     const interval = setInterval(() => {
@@ -34,25 +7,43 @@ function waitForElement(selector, callback) {
             clearInterval(interval);
             callback(element);
         }
-    }, 100); // Check every 100ms
+    }, 100); // Check every 100 ms
 }
 
 
+async function processChapter(element){
+	// TODO: Add regular patterns to find names
+	title_name = Array.from(document.querySelectorAll('[data-media-up]')).find(el => el.textContent).textContent;
+	chapter_name = Array.from(document.querySelectorAll('[data-media-down]')).find(el => el.textContent).textContent;
+	file_name = title_name + chapter_name;
+
+	var div_list = document.querySelectorAll('[data-page]');
+	var div_array = [...div_list];
+	image_urls = []
+
+	for (const div of div_array) {
+		image = div.querySelector('img');
+		if (image !== null) {
+			image_urls.push(image.src + '\n');
+		}
+		else {
+			console.log('No image for page', div.getAttribute('data-page'));
+		}
+
+		window.focus();
+		div.click();
+		await new Promise(r => setTimeout(r, 100));  // 100 ms optimal time to load image
+	  }
+
+	download(file_name, image_urls);
+	}
+
 // Function to download data to a file
-function download(data, filename, type) {
-    var file = new Blob([data], {type: type});
-    if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(file, filename);
-    else { // Others
-        var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function() {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);  
-        }, 0); 
-    }
+function download(file_name, image_urls) {
+    var a = document.createElement("a");
+	var file = new Blob(image_urls, {type: 'text/plain'});
+	a.href = URL.createObjectURL(file);
+	a.download = file_name;
+	document.body.appendChild(a);
+	a.click();
 }

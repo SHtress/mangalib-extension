@@ -6,10 +6,6 @@
     {
      "matches":["https://mangalib.me/*"],
      "js":["goToChapter.js", "downloadChapter.js"]
-    },
-	{
-	 "matches":["https://img2.imglib.info/*"],
-	 "js":["downloadPage.js"]
-	}
+    }
   ]
 }

@@ -1,6 +1,4 @@
-console.log('test1');
-
-function main() {	
+function main() {
 	var div_list = document.querySelectorAll('[data-chapter-id]');
 	// returns NodeList
 	var div_array = [...div_list]; // converts NodeList to Array
@@ -14,7 +12,7 @@ function main() {
 		div.append(button);
 		});
 }
-	
+
 function goToChapter() {
 	console.log(this.pageLink);
 	window.location.href = this.pageLink
