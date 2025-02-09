@@ -15,7 +15,8 @@ function main() {
 
 function goToChapter() {
 	console.log(this.pageLink);
-	window.location.href = this.pageLink
+	window.open(this.pageLink)
+	// window.location.href = this.pageLink
 }
 
 function waitForElement(selector, callback) {
@@ -30,6 +31,5 @@ function waitForElement(selector, callback) {
 
 // Usage
 waitForElement('.vue-recycle-scroller__item-wrapper', (element) => {
-    console.log('Chapter exists:', element);
 	main();
 });

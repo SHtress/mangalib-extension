@@ -30,12 +30,12 @@ async function processChapter(element){
 			console.log('No image for page', div.getAttribute('data-page'));
 		}
 
-		window.focus();
-		div.click();
+		image.click();
 		await new Promise(r => setTimeout(r, 100));  // 100 ms optimal time to load image
 	  }
 
 	download(file_name, image_urls);
+	window.close();
 	}
 
 // Function to download data to a file
